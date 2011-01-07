@@ -8,17 +8,16 @@ situations (log-act):
 * Web server
 * Fault-tolerant systems
 
-One example is when a program logs a warning to stdout as a user, but
-raises an exception as a developer.
+One example of having different behaviours is when a program logs a warning to
+stdout as a user, but raises an exception as a developer.
 
-bio-logger builds up on log4r functionality, which comes with
-multiple handlers and is thread-safe, using a more fine-grained
-approach for logging errors. I.e. within 'debug', 'info', 'warn',
-'error' and 'fatal', an additional value 1..9 can be set to limit
-output and logging.
+bio-logger builds up on log4r functionality, which comes with multiple
+handlers, such as a rotating and remote logging, and is thread-safe. Next to
+adding behaviours, bio-logger introduces a more fine-grained approach for
+logging errors. I.e. within 'debug', 'info', 'warn', 'error' and 'fatal', an
+additional value 1..9 can be set to limit output and logging.
 
-When a program, e.g. gff3-fetch, supports bio-logger switches, the following 
-is possible:
+bio-logger can also parse for command line switches:
 
   --logger stderr              Add stderr logger
   --logger filen               Add filename logger
@@ -33,10 +32,13 @@ overrides:
   --trace  blast,gff3:debug    Override level for 'blast' and 'gff3' 
   --trace  stderr:blast:debug  Override level for 'blast' on stderr 
 
-Also behaviour can be changed. This normally happens through library
+Behaviour, or 'acting', can be changed. This normally happens through library
 calls. There is one command line switch, which changes log-act:
 
   --log-act Developer          Modify the logger for development
+
+which will cause, for example, 'error' and 'fatal' to fail during development.
+New behaviour can be implemented by deriving from an existing class.
 
 == Install bio-logger
 
@@ -53,9 +55,9 @@ calls. There is one command line switch, which changes log-act:
 
   # create a second rotating log for BLAST
   config = {
-    "filename" => "logs/TestSize.log",
-    "maxsize" => 16000,
-    "trunc" => true
+    "filename" => "log/blast.log",  # make sure the dir exists!
+    "maxsize" => 16000,             # max file size
+    "trunc" => false                # don't delete log
   }
   log2 = LoggerPlus.new 'blast'
   log2.outputters = RollingFileOutputter.new("blast", config)
@@ -86,13 +88,14 @@ calls. There is one command line switch, which changes log-act:
   blastlog.info_("INFO should not fail",:act => dev)
   blastlog.error_("As Developer ERROR should fail",:act => dev)
 
+== Documentation
+
+The log4r documentation and source code can be used, as this Logger 
+implementation passes everything down, except for the added methods.
+
 See the Specs in ./spec for more examples. Run the Specs with
 
   rspec spec/*.rb
-
-== Notice
-
-bio-logger is in early development.
 
 == Copyright
 
