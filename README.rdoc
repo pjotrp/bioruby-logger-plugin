@@ -38,6 +38,38 @@ calls. There is one command line switch, which changes log-act:
 
   --log-act Developer          Modify the logger for development
 
+== Install bio-logger
+
+  gem install bio-logger
+
+== Bio::Log API
+
+  require 'bio-logger'
+  include Bio::Log
+
+  log = LoggerPlus.new 'mylog'
+  log.outputters = Outputter.stderr
+
+  # ==== Output messages
+  log.debug "This is a message with level DEBUG"
+  log.info "This is a message with level INFO"
+  log.warn "This is a message with level WARN"
+  log.error "This is a message with level ERROR"
+  log.fatal "This is a message with level FATAL"
+  log.warn3 "This is a message with level WARN:3"
+
+  # Restrict output to WARN:3
+  log.level = WARN
+  log.sub_level = 3
+  log.info("This is a message with level INFO")    # not logged
+  log.warn8("This is a message with level WARN:8") # not logged
+  log.warn1("This is a message with level WARN:1") # logged
+  log.warn("This is a message with level WARN")    # logged
+
+See the Specs in ./spec for more examples. Run the Specs with
+
+  rspec spec/*.rb
+
 == Notice
 
 bio-logger is in early development.
