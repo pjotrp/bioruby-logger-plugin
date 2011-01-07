@@ -68,7 +68,14 @@ describe Bio::Log, "logs" do
     log.info5("This is a message with level INFO:5").should_not == nil
     log.info6("This is a message with level INFO:6").should == nil
   end
-  it "should modify the logger for development"
+  it "should modify the logger for development" do
+    @mylog.error_("ERROR should not fail",:act => NormalUser.new).should_not == nil
+    dev = Developer.new
+    @mylog.info_("INFO should not fail",:act => dev).should_not == nil
+    lambda { @mylog.error_("As Developer ERROR should fail",:act => dev) }.should raise_error
+    lambda { @mylog.fatal_("As Developer FATAL should fail",:act => dev) }.should raise_error
+
+  end
 end
 
 

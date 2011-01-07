@@ -47,10 +47,20 @@ calls. There is one command line switch, which changes log-act:
   require 'bio-logger'
   include Bio::Log
 
+  # ==== Create loggers
   log = LoggerPlus.new 'mylog'
   log.outputters = Outputter.stderr
 
-  # ==== Output messages
+  # create a second rotating log for BLAST
+  config = {
+    "filename" => "logs/TestSize.log",
+    "maxsize" => 16000,
+    "trunc" => true
+  }
+  log2 = LoggerPlus.new 'blast'
+  log2.outputters = RollingFileOutputter.new("blast", config)
+
+  # ==== Output messages on 'mylog'
   log.debug "This is a message with level DEBUG"
   log.info "This is a message with level INFO"
   log.warn "This is a message with level WARN"
@@ -69,6 +79,12 @@ calls. There is one command line switch, which changes log-act:
   # Fetch the BLAST logger (assuming it exists)
   blastlog = LoggerPlus['blast']
   blastlog.warn("This is a message with level WARN") # logged
+
+  # Special logging behaviour, based on actual user
+  blastlog.error_("ERROR should not fail",:act => NormalUser.new)
+  dev = Developer.new
+  blastlog.info_("INFO should not fail",:act => dev)
+  blastlog.error_("As Developer ERROR should fail",:act => dev)
 
 See the Specs in ./spec for more examples. Run the Specs with
 
