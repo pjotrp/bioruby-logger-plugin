@@ -26,6 +26,8 @@ describe Bio::Log, "logs" do
     @mylog = LoggerPlus.new 'mylog'
     @mylog.outputters = Outputter.stderr
     logit @mylog
+    blastlog = LoggerPlus.new 'blast'
+    blastlog.outputters = Outputter.stderr
   end
 
   it "should have a stderr logger" do
@@ -56,9 +58,16 @@ describe Bio::Log, "logs" do
     @mylog.info("This is a message with level INFO").should_not == nil
     @mylog.warn8("This is a message with level WARN:8").should_not == nil
   end
-  it "should override level for 'gff3' to info level 5"
-  it "should override level for 'blast' and 'gff3'"
-  it "should override level for 'blast' on stderr "
+  it "should override level for 'blast' to info level 5" do
+    log = LoggerPlus['blast']
+    log.should_not == nil
+    log.info("This is a message with level INFO").should_not == nil
+    log.level = INFO
+    log.sub_level = 5
+    log.info("This is a message with level INFO").should_not == nil
+    log.info5("This is a message with level INFO:5").should_not == nil
+    log.info6("This is a message with level INFO:6").should == nil
+  end
   it "should modify the logger for development"
 end
 

@@ -61,10 +61,14 @@ calls. There is one command line switch, which changes log-act:
   # Restrict output to WARN:3
   log.level = WARN
   log.sub_level = 3
-  log.info("This is a message with level INFO")    # not logged
-  log.warn8("This is a message with level WARN:8") # not logged
-  log.warn1("This is a message with level WARN:1") # logged
-  log.warn("This is a message with level WARN")    # logged
+  log.info("This is a message with level INFO")      # not logged
+  log.warn8("This is a message with level WARN:8")   # not logged
+  log.warn1("This is a message with level WARN:1")   # logged
+  log.warn("This is a message with level WARN")      # logged
+
+  # Fetch the BLAST logger (assuming it exists)
+  blastlog = LoggerPlus['blast']
+  blastlog.warn("This is a message with level WARN") # logged
 
 See the Specs in ./spec for more examples. Run the Specs with
 
