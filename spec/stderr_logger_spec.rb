@@ -30,13 +30,32 @@ describe Bio::Log, "logs" do
     blastlog.outputters = Outputter.stderr
   end
 
+  after(:all) do
+    File.unlink("file.log")
+    File.unlink("TestSize000001.log")
+  end
+
   it "should have a stderr logger" do
     # logit @mylog
     @mylog.info("This is a message with level INFO").should_not == nil
   end
 
-  it "should have a file logger"
-  it "should have a rotating file logger"
+  it "should have a rotating file logger" do
+    config = {
+      "filename" => "TestSize.log",
+      "maxsize" => 16000,
+      "trunc" => true
+    }
+    log2 = LoggerPlus.new 'mylog2'
+    log2.outputters = RollingFileOutputter.new("mylog2", config)
+    log2.info("This is a message with level INFO").should_not == nil
+  end
+  it "should have a file logger" do
+    log3 = LoggerPlus.new 'filelog'
+    log3.outputters = FileOutputter.new('filelog', :filename => 'file.log',:trunc => false)
+    log3.info("This is a message with level INFO").should_not == nil
+    File.read('file.log').should == " INFO filelog: This is a message with level INFO\n"
+  end
   it "should set global loglevel to warn" do
     # @mylog.level = Bio::Log::WARN
     @mylog.level = WARN
