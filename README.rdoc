@@ -11,9 +11,10 @@ situations (log-act):
 One example is when a program logs a warning to stdout as a user, but
 raises an exception as a developer.
 
-bio-logger builds up on log4r functionality, using a more fine-grained approach
-for logging errors. I.e. within 'debug', 'info', 'warn', 'error' an addition
-value 1..10 can be set to limit output and logging.
+bio-logger builds up on log4r functionality, using a more fine-grained
+approach for logging errors. I.e. within 'debug', 'info', 'warn',
+'error' and 'fatal', an additional value 1..10 can be set to limit
+output and logging.
 
 When a program, e.g. gff3-fetch, supports bio-logger switches, the following 
 is possible:
@@ -22,19 +23,23 @@ is possible:
   --logger filen               Add filename logger
   --trace  debug               Show all messages 
   --trace  warn                Show messages more serious than 'warn'
-	--trace  warn:3              Show messaged more serious that 'warn' level 3
+  --trace  warn:3              Show messaged more serious that 'warn' level 3
 
 overrides:
 
-	--trace  gff3:info:5         Override level for 'gff3' to info level 5
-	--trace  blast:debug         Override level for 'blast'
-	--trace  blast,gff3:debug    Override level for 'blast' and 'gff3' 
-	--trace  stderr:blast:debug  Override level for 'blast' on stderr 
+  --trace  gff3:info:5         Override level for 'gff3' to info level 5
+  --trace  blast:debug         Override level for 'blast'
+  --trace  blast,gff3:debug    Override level for 'blast' and 'gff3' 
+  --trace  stderr:blast:debug  Override level for 'blast' on stderr 
 
 Also behaviour can be changed. This normally happens through library
 calls. There is one command line switch, which changes log-act:
 
   --log-act Developer          Modify the logger for development
+
+== Notice
+
+bio-logger is in early development.
 
 == Copyright
 
