@@ -11,9 +11,10 @@ situations (log-act):
 One example is when a program logs a warning to stdout as a user, but
 raises an exception as a developer.
 
-bio-logger builds up on log4r functionality, using a more fine-grained
+bio-logger builds up on log4r functionality, which comes with
+multiple handlers and is thread-safe, using a more fine-grained
 approach for logging errors. I.e. within 'debug', 'info', 'warn',
-'error' and 'fatal', an additional value 1..10 can be set to limit
+'error' and 'fatal', an additional value 1..9 can be set to limit
 output and logging.
 
 When a program, e.g. gff3-fetch, supports bio-logger switches, the following 

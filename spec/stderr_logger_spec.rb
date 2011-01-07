@@ -25,6 +25,7 @@ describe Bio::Log, "logs" do
     # @mylog = Bio::Log::LoggerPlus.root
     @mylog = LoggerPlus.new 'mylog'
     @mylog.outputters = Outputter.stderr
+    logit @mylog
   end
 
   it "should have a stderr logger" do
@@ -40,6 +41,7 @@ describe Bio::Log, "logs" do
     # logit @mylog
     @mylog.info("This is a message with level INFO").should == nil
     @mylog.error("This is a message with level ERROR").should_not == nil
+    @mylog.level = INFO
   end
   it "should set global loglevel with number"
   it "should override level for 'gff3' to info level 5"
