@@ -41,9 +41,21 @@ describe Bio::Log, "logs" do
     # logit @mylog
     @mylog.info("This is a message with level INFO").should == nil
     @mylog.error("This is a message with level ERROR").should_not == nil
-    @mylog.level = INFO
+    @mylog.level = DEBUG
   end
-  it "should set global loglevel with number"
+  it "should set global loglevel with WARN:3" do
+    @mylog.level = WARN
+    @mylog.sub_level = 3
+    @mylog.info("This is a message with level INFO").should == nil
+    @mylog.warn8("This is a message with level WARN:8").should == nil
+    @mylog.warn1("This is a message with level WARN:1").should_not == nil
+    @mylog.warn("This is a message with level WARN").should_not == nil
+    @mylog.error("This is a message with level ERROR").should_not == nil
+    @mylog.level = DEBUG
+    @mylog.sub_level = nil
+    @mylog.info("This is a message with level INFO").should_not == nil
+    @mylog.warn8("This is a message with level WARN:8").should_not == nil
+  end
   it "should override level for 'gff3' to info level 5"
   it "should override level for 'blast' and 'gff3'"
   it "should override level for 'blast' on stderr "
