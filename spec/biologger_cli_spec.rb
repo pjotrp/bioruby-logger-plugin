@@ -67,8 +67,9 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
   end
   it "should realize setting warn:3" do
     CLI.trace("blast:warn:3")
+    LoggerPlus.new('blast')
     CLI.configure
-    log = Logger['blast']
+    log = LoggerPlus['blast']
     log.level.should == WARN
     log.sub_level.should == 3
   end

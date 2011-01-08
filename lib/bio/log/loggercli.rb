@@ -59,7 +59,7 @@ module Bio
           logger_type = type
           logger_type = default[:outputter_name] if default[:outputter_name]
           logger_type = opts[:outputter_name] if opts[:outputter_name]
-          logger = LoggerPlus.new(name)
+          logger = LoggerPlus[name]
           logger.outputters = 
             case logger_type
               when 'stderr', :stderr then logger.outputters = Outputter.stderr
