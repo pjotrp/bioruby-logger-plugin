@@ -54,6 +54,7 @@ module Bio
         trace = LoggerPlusGlobal.instance.trace
         p trace, otype
         trace.each do | name, opts |
+          next if name == :default
           logger = LoggerPlus.new(name)
           logger.level = case opts[:level]
             when 'debug' then DEBUG
