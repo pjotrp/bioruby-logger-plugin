@@ -147,7 +147,9 @@ For parsing command line options with the OptionParser:
 The log4r documentation and source code can be used, as this Logger 
 implementation passes everything down, except for the added methods.
 
-See the Specs in ./spec for more examples. Run the Specs with
+See http://log4r.rubyforge.org/
+
+See also the Specs in ./spec for more examples. Run the Specs with
 
   rspec spec/*.rb
 
@@ -162,9 +164,7 @@ with the main application.
 
 == Cite
 
-  If you use this software, please cite 
-  
-    http://dx.doi.org/10.1093/bioinformatics/btq475
+If you use this software, please cite http://dx.doi.org/10.1093/bioinformatics/btq475
 
 == Copyright
 
