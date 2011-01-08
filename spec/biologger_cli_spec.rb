@@ -19,6 +19,9 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
     @global = LoggerPlusGlobal.instance
   end
 
+  before(:each) do
+    LoggerPlusGlobal.instance.trace = {}
+  end
   it "should parse --logger stderr and set the global" do
     CLI.logger("stderr")
     LoggerPlusGlobal.instance.outputter_type.should == :stderr
@@ -39,10 +42,28 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
     CLI.trace("warn:3")
     @global.trace[:default].should == { :level => 'warn', :sub_level => 3 } 
   end
-  it "should parse --trace  gff3:info:5 to override level for 'gff3' to info level 5"
-  it "should parse --trace  blast:debug to override level for 'blast'"
-  it "should parse --trace  blast,gff3:debug to override level for 'blast' and 'gff3'"
-  it "should parse --trace  stderr:blast:debug to override level for 'blast' on stderr" 
+  it "should parse --trace  blast:debug to override level for 'blast'" do
+    CLI.trace("blast:debug")
+    @global.trace.should == {"blast"=>{:level=>"debug", :sub_level=>nil}}
+  end
+  it "should parse --trace  gff3:info:5 to override level for 'gff3' to info level 5" do
+    CLI.trace("gff3:info:5")
+    @global.trace.should == {"gff3"=>{:level=>"info", :sub_level=>5}}
+  end
+  it "should parse --trace  blast,gff3:debug to override level for 'blast' and 'gff3'" do
+    CLI.trace("blast,gff3:debug:5")
+    @global.trace.should == {"blast"=>{:level=>"debug", :sub_level=>5}, "gff3"=>{:level=>"debug", :sub_level=>5}} 
+  end
+  it "should parse --trace  stderr:blast:debug to override level for 'blast' on stderr" do
+    CLI.trace("stderr:blast:debug")
+    @global.trace.should ==
+      {"blast"=>{:level=>"debug", :sub_level=>nil, :outputter_name=>"stderr"}}
+  end
+  it "should parse --trace  stderr:blast,gff3:debug:1 to override level for 'blast' on stderr" do
+    CLI.trace("stderr:blast,gff3:debug:1")
+    @global.trace.should ==
+      {"blast"=>{:level=>"debug", :sub_level=>1, :outputter_name=>"stderr"}, "gff3"=>{:level=>"debug", :sub_level=>1, :outputter_name=>"stderr"}}
+  end
 end
 
 
