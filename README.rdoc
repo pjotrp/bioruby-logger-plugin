@@ -1,26 +1,53 @@
 = bio-logger
 
-This is a plugin for sane handling of errors and exceptions in different
-situations (log-act):
+This is a plugin for nailing down problems with big data parsers,
+common in bioinformatics, and sane handling of errors and exceptions in different
+situations (log-act). A logger can be made to behave differently as
 
-* Normal user
+* NormalUser
 * Developer
-* Web server
-* Fault-tolerant systems
+* WebServer
+* FaultTolerant systems
 
-One example of having different behaviours is when a program logs a warning to
-stdout as a user, but raises an exception as a developer.
+One example of the use of having different behaviours, is when a program logs a
+warning to stdout as a user, but raises an exception as a developer.
+In Bioinformatics this is a common scenario when dealing with parsers.
+Large data files sometimes contain errors. As a user you want to
+continue and hope for the best (logging the error). As a developer you
+want to see how you can fix the problem. Waiting for a full run and
+checking the logs is tedious. The logger can be helpful here, and
+avoids sticking 'temporary' solutions in code.
 
 bio-logger builds up on log4r functionality, which comes with multiple
-handlers, such as a rotating and remote logging, and is thread-safe. Next to
-adding behaviours, bio-logger introduces a more fine-grained approach for
-logging errors. I.e. within 'debug', 'info', 'warn', 'error' and 'fatal', an
-additional value 1..9 can be set to limit output and logging.
+handlers, such as a rotating and remote logging, and is thread-safe.
+Next to adding behaviours, bio-logger introduces a more fine-grained
+approach for logging errors. I.e. within 'debug', 'info', 'warn',
+'error' and 'fatal', an additional value 1..9 can be set to limit
+output and logging. This, again, can be helpful when dealing with huge
+log files. Switch a not so important and validated DEBUG, INFO or
+WARN, to a higher sub level will take it out of the logs. This can
+also make sense when deploying applications under different scenarios.
 
-bio-logger can also parse for command line switches:
+Log4r is useful, compared to the standard Ruby logger,
+because it allows you to set reporting leaves by log type. I.e. if
+everything in BioRuby works, except for the BLAST parser, or some
+plugin, the logger
+can be tuned only to log BLAST debug level, and everything else at
+normal level.
+
+In other words, bio-logger helps in tracking down problems and
+provide a way of avoiding sprinkling $stderr.print statements through
+the code base.
+
+To support applications, bio-logger can also parse command line switches:
+
+add (multiple) loggers:
 
   --logger stderr              Add stderr logger
   --logger filen               Add filename logger
+
+specify global log level:
+
   --trace  debug               Show all messages 
   --trace  warn                Show messages more serious than 'warn'
   --trace  warn:3              Show messaged more serious that 'warn' level 3
@@ -32,12 +59,14 @@ overrides:
   --trace  blast,gff3:debug    Override level for 'blast' and 'gff3' 
   --trace  stderr:blast:debug  Override level for 'blast' on stderr 
 
-Behaviour, or 'acting', can be changed. This normally happens through library
-calls. There is one command line switch, which changes log-act:
+Earlier described behaviour, or 'acting', can be changed. This
+normally happens through library calls. There is one command line
+switch, which changes log-act:
 
   --log-act Developer          Modify the logger for development
 
-which will cause, for example, 'error' and 'fatal' to fail during development.
+which will cause, for example, 'error' and 'fatal' to fail during
+development, for special calls to the logger (described below).
 New behaviour can be implemented by deriving from an existing class.
 
 == Install bio-logger
@@ -45,6 +74,10 @@ New behaviour can be implemented by deriving from an existing class.
   gem install bio-logger
 
 == Bio::Log API
+
+In code there are more options. For example, it is possible to define
+multiple output streams, or split out different loggers to different
+streams. It is also possible to change behaviours by module.
 
   require 'bio-logger'
   include Bio::Log
@@ -82,7 +115,7 @@ New behaviour can be implemented by deriving from an existing class.
   blastlog = LoggerPlus['blast']
   blastlog.warn("This is a message with level WARN") # logged
 
-  # Special logging behaviour, based on actual user
+  # Special logging behaviour
   blastlog.error_("ERROR should not fail",:act => NormalUser.new)
   dev = Developer.new
   blastlog.info_("INFO should not fail",:act => dev)
@@ -96,6 +129,21 @@ implementation passes everything down, except for the added methods.
 See the Specs in ./spec for more examples. Run the Specs with
 
   rspec spec/*.rb
+
+== TODO
+
+The current version is tested on BioRuby parser plugins (e.g.
+bioruby-gff3-plugin). 
+
+It may be
+interesting to run loggers as actors, so the are fully parallelized
+with the main application.
+
+== Cite
+
+  If you use this software, please cite 
+  
+    http://dx.doi.org/10.1093/bioinformatics/btq475
 
 == Copyright
 
