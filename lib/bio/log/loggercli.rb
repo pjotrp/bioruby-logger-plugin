@@ -26,10 +26,16 @@ module Bio
 
       # Parse and store trace options
       def CLI::trace s
+        sub_level = nil
+
         opts = {}
         type = :default
-        level, sub_level = s.split(':')
-        sub_level = sub_level.to_i if sub_level 
+        # level, sub_level = s.split(':')
+        a = s.split(':')
+        if a.last =~ /^\d+$/
+          sub_level = a.pop.to_i
+        end
+        level = a.pop
         opts[type] = { :level => level, :sub_level => sub_level }
         LoggerPlusGlobal.instance.trace = opts
       end
