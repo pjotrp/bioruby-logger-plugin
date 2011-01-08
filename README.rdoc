@@ -126,8 +126,17 @@ For parsing command line options with the OptionParser:
   opts.on("--logger filename",String,"Log to file (default STDOUT)") do | name |
 	  Bio::Log::CLI.logger(name)
   end
+
   opts.on("--trace options",String,"Set log level (default INFO, see bio-logger)") do | s |
 	  Bio::Log::CLI.trace(s)
+  end
+
+  opts.on("-q", "--quiet", "Run quietly") do |q|
+	  Bio::Log::CLI.trace('error')
+  end
+
+  opts.on("-v", "--verbose", "Run verbosely") do |v|
+	  Bio::Log::CLI.trace('info')
   end
 
 == Documentation
