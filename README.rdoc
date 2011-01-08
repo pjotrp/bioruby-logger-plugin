@@ -121,7 +121,14 @@ streams. It is also possible to change behaviours by module.
   blastlog.info_("INFO should not fail",:act => dev)
   blastlog.error_("As Developer ERROR should fail",:act => dev)
 
-For parsing command line options see the specs in ./spec/
+For parsing command line options with the OptionParser:
+
+  opts.on("--logger filename",String,"Log to file (default STDOUT)") do | name |
+	  Bio::Log::CLI.logger(name)
+  end
+  opts.on("--trace options",String,"Set log level (default INFO, see bio-logger)") do | s |
+	  Bio::Log::CLI.trace(s)
+  end
 
 == Documentation
 

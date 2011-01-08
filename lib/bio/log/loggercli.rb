@@ -30,7 +30,7 @@ module Bio
         if a.last =~ /^\d+$/
           sub_level = a.pop.to_i
         end
-        level = a.pop
+        level = a.pop.downcase
         outputter = 
           if a.size == 2 
             a.shift
