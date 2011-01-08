@@ -1,6 +1,7 @@
 
 require 'bio/log/loggersublevels'
 require 'bio/log/loggerusers'
+require 'bio/log/loggercli'
 
 module Bio
 
