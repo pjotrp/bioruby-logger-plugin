@@ -50,21 +50,38 @@ module Bio
       end
 
       def CLI::configure
-        otype = LoggerPlusGlobal.instance.outputter_type
+        type = LoggerPlusGlobal.instance.outputter_type
         trace = LoggerPlusGlobal.instance.trace
-        p trace, otype
+        default = {}
+        default = trace[:default] if trace[:default]
         trace.each do | name, opts |
           next if name == :default
+          logger_type = type
+          logger_type = default[:outputter_name] if default[:outputter_name]
+          logger_type = opts[:outputter_name] if opts[:outputter_name]
           logger = LoggerPlus.new(name)
-          logger.level = case opts[:level]
-            when 'debug' then DEBUG
-            when 'info' then INFO
-            when 'warn' then WARN
-            when 'error' then ERROR
-            when 'fatal' then FATAL
-          end 
-          logger.sub_level = opts[:sub_level] if opts[:sub_level]
+          logger.outputters = 
+            case logger_type
+              when 'stderr', :stderr then logger.outputters = Outputter.stderr
+              when nil, 'stdout', :stdout then logger.outputters = Outputter.stdout
+              else FileOutputter.new(name, logger_type)
+            end
+          set_levels(logger, default) if default
+          set_levels(logger, opts)
         end
+      end
+
+      private
+
+      def CLI::set_levels logger, opts
+        logger.level = case opts[:level]
+          when 'debug' then DEBUG
+          when 'info' then INFO
+          when 'warn' then WARN
+          when 'error' then ERROR
+          when 'fatal' then FATAL
+        end if opts[:level]
+        logger.sub_level = opts[:sub_level] if opts[:sub_level]
       end
     end
   end
