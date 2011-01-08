@@ -121,6 +121,8 @@ streams. It is also possible to change behaviours by module.
   blastlog.info_("INFO should not fail",:act => dev)
   blastlog.error_("As Developer ERROR should fail",:act => dev)
 
+For parsing command line options see the specs in ./spec/
+
 == Documentation
 
 The log4r documentation and source code can be used, as this Logger 
@@ -132,8 +134,8 @@ See the Specs in ./spec for more examples. Run the Specs with
 
 == TODO
 
-The current version is tested on BioRuby parser plugins (e.g.
-bioruby-gff3-plugin). 
+The current version is used in BioRuby parser plugins (e.g.
+http://github.com/pjotrp/bioruby-gff3-plugin/). 
 
 It may be
 interesting to run loggers as actors, so the are fully parallelized
