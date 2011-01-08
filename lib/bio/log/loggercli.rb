@@ -49,22 +49,29 @@ module Bio
         LoggerPlusGlobal.instance.trace = LoggerPlusGlobal.instance.trace.merge(opts)
       end
 
-      def CLI::configure
+      def CLI::configure logname = nil
+        include Bio::Log
+
         type = LoggerPlusGlobal.instance.outputter_type
         trace = LoggerPlusGlobal.instance.trace
+        trace ||= {}
         default = {}
         default = trace[:default] if trace[:default]
+        trace[logname] ||= {} if logname
         trace.each do | name, opts |
           next if name == :default
           logger_type = type
           logger_type = default[:outputter_name] if default[:outputter_name]
           logger_type = opts[:outputter_name] if opts[:outputter_name]
           logger = LoggerPlus[name]
+          raise "Unknown logger <#{name}>" if logger == nil
           logger.outputters = 
             case logger_type
               when 'stderr', :stderr then logger.outputters = Outputter.stderr
               when nil, 'stdout', :stdout then logger.outputters = Outputter.stdout
-              else FileOutputter.new(name, logger_type)
+              else 
+                # p [name, logger_type]
+                FileOutputter.new(name, logger_type[:file])
             end
           set_levels(logger, default) if default
           set_levels(logger, opts)
