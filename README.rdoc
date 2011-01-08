@@ -139,6 +139,9 @@ For parsing command line options with the OptionParser:
 	  Bio::Log::CLI.trace('info')
   end
 
+  # Realize settings
+  Bio::Log::CLI.configure
+
 == Documentation
 
 The log4r documentation and source code can be used, as this Logger 

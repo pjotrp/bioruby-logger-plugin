@@ -11,6 +11,7 @@ module Bio
     end
 
     module CLI
+
       # Parse and store global logger type
       def CLI::logger name
         LoggerPlusGlobal.instance.outputter_type = case name
@@ -46,6 +47,23 @@ module Bio
         end
         LoggerPlusGlobal.instance.trace ||= {}
         LoggerPlusGlobal.instance.trace = LoggerPlusGlobal.instance.trace.merge(opts)
+      end
+
+      def CLI::configure
+        otype = LoggerPlusGlobal.instance.outputter_type
+        trace = LoggerPlusGlobal.instance.trace
+        p trace, otype
+        trace.each do | name, opts |
+          logger = LoggerPlus.new(name)
+          logger.level = case opts[:level]
+            when 'debug' then DEBUG
+            when 'info' then INFO
+            when 'warn' then WARN
+            when 'error' then ERROR
+            when 'fatal' then FATAL
+          end 
+          logger.sub_level = opts[:sub_level] if opts[:sub_level]
+        end
       end
     end
   end

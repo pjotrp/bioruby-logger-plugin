@@ -21,6 +21,7 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
 
   before(:each) do
     LoggerPlusGlobal.instance.trace = {}
+    LoggerPlusGlobal.instance.outputter_type = :stdout
   end
   it "should parse --logger stderr and set the global" do
     CLI.logger("stderr")
@@ -63,6 +64,13 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
     CLI.trace("stderr:blast,gff3:debug:1")
     @global.trace.should ==
       {"blast"=>{:level=>"debug", :sub_level=>1, :outputter_name=>"stderr"}, "gff3"=>{:level=>"debug", :sub_level=>1, :outputter_name=>"stderr"}}
+  end
+  it "should realize setting warn:3" do
+    CLI.trace("blast:warn:3")
+    CLI.configure
+    log = Logger['blast']
+    log.level.should == WARN
+    log.sub_level.should == 3
   end
 end
 
