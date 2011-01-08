@@ -5,7 +5,7 @@ common in bioinformatics, and sane handling of errors and exceptions in differen
 situations (log-act). A logger can be made to behave differently as
 
 * NormalUser
-* Developer
+* Developer (or FailOnError)
 * WebServer
 * FaultTolerant systems
 
@@ -63,7 +63,7 @@ Earlier described behaviour, or 'acting', can be changed. This
 normally happens through library calls. There is one command line
 switch, which changes log-act:
 
-  --log-act Developer          Modify the logger for development
+  --log-act FailOnError          Modify the logger for development
 
 which will cause, for example, 'error' and 'fatal' to fail during
 development, for special calls to the logger (described below).
@@ -117,7 +117,7 @@ streams. It is also possible to change behaviours by module.
 
   # Special logging behaviour
   blastlog.error_("ERROR should not fail",:act => NormalUser.new)
-  dev = Developer.new
+  dev = FailOnError.new
   blastlog.info_("INFO should not fail",:act => dev)
   blastlog.error_("As Developer ERROR should fail",:act => dev)
 

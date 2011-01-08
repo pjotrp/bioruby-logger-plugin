@@ -3,6 +3,7 @@ module Bio
 
   module Log
 
+    # NormalUser logs, but does not fail
     class NormalUser
       # include LoggerSubLevels
 
@@ -23,21 +24,23 @@ module Bio
       end
     end
 
-    class DeveloperException < RuntimeError
+    class FailOnErrorException < RuntimeError
     end
 
-    # Developer acts so that errors raise an exception.
-    class Developer < NormalUser
-
+    class FailOnError < NormalUser
       def error logger, msg
         logger.error msg
-        raise DeveloperException
+        raise FailOnErrorException
       end
 
       def fatal logger, msg
         logger.fatal msg
-        raise DeveloperException
+        raise FailOnErrorException
       end
+    end
+
+    # Developer acts so that errors raise an exception.
+    class Developer < FailOnError
     end
 
   end
