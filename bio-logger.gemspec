@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bio-logger}
-  s.version = "0.0.0"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Pjotr Prins"]
-  s.date = %q{2011-01-06}
-  s.description = %q{TODO: longer description of your gem}
+  s.date = %q{2011-01-12}
+  s.description = %q{Log4r wrapper for BioRuby}
   s.email = %q{pjotr.public01@thebird.nl}
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -19,11 +19,19 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     "Gemfile",
+    "Gemfile.lock",
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "bio-logger.gemspec",
     "lib/bio-logger.rb",
+    "lib/bio/log/logger.rb",
+    "lib/bio/log/loggercli.rb",
+    "lib/bio/log/loggersublevels.rb",
+    "lib/bio/log/loggerusers.rb",
+    "spec/biologger_cli_spec.rb",
+    "spec/biologger_spec.rb",
     "test/helper.rb",
     "test/test_bio-logger.rb"
   ]
@@ -31,8 +39,10 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{Log4r wrapper for BioRuby}
   s.test_files = [
+    "spec/biologger_cli_spec.rb",
+    "spec/biologger_spec.rb",
     "test/helper.rb",
     "test/test_bio-logger.rb"
   ]
@@ -47,12 +57,14 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<bio>, [">= 1.4.1"])
+      s.add_runtime_dependency(%q<log4r>, ["> 1.1.6"])
     else
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<bio>, [">= 1.4.1"])
+      s.add_dependency(%q<log4r>, ["> 1.1.6"])
     end
   else
     s.add_dependency(%q<shoulda>, [">= 0"])
@@ -60,6 +72,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<bio>, [">= 1.4.1"])
+    s.add_dependency(%q<log4r>, ["> 1.1.6"])
   end
 end
 
