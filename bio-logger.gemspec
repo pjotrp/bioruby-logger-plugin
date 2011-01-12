@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Log4r wrapper for BioRuby}
+  s.summary = %q{Log4r wrapper with extra features}
   s.test_files = [
     "spec/biologger_cli_spec.rb",
     "spec/biologger_spec.rb",
@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<bio>, [">= 1.4.1"])
       s.add_runtime_dependency(%q<log4r>, ["> 1.1.6"])
+      s.add_development_dependency(%q<rspec>, ["> 1.2.3"])
     else
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -65,6 +66,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<bio>, [">= 1.4.1"])
       s.add_dependency(%q<log4r>, ["> 1.1.6"])
+      s.add_dependency(%q<rspec>, ["> 1.2.3"])
     end
   else
     s.add_dependency(%q<shoulda>, [">= 0"])
@@ -73,6 +75,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<bio>, [">= 1.4.1"])
     s.add_dependency(%q<log4r>, ["> 1.1.6"])
+    s.add_dependency(%q<rspec>, ["> 1.2.3"])
   end
 end
 
