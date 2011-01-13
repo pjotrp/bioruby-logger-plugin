@@ -30,7 +30,7 @@ module Bio
     class FailOnError < NormalUser
       def error logger, msg
         logger.error msg
-        raise FailOnErrorException
+        raise FailOnErrorException,msg
       end
 
       def fatal logger, msg

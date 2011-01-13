@@ -1,7 +1,6 @@
-
 require "rubygems"
 begin
-  gem "log4r" , "> 1.1.8"
+  gem "log4r" 
 rescue
 	$stderr.print "log4r not installed, bailing out...\n"
   exit 1
