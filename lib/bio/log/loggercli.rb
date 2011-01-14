@@ -81,7 +81,6 @@ module Bio
       private
 
       def CLI::set_levels logger, opts
-        logger.level = INFO # default
         logger.level = case opts[:level]
           when 'debug' then DEBUG
           when 'info' then INFO
