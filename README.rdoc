@@ -24,8 +24,12 @@ Next to adding behaviours, bio-logger introduces a more fine-grained
 approach for logging errors. I.e. within 'debug', 'info', 'warn',
 'error' and 'fatal', an additional value 1..9 can be set to limit
 output and logging. This, again, can be helpful when dealing with huge
-log files. Switch a not so important and validated DEBUG, INFO or
-WARN, to a higher sub level will take it out of the logs. This can
+log files. One way is to switch a not so important and validated DEBUG, INFO or
+WARN, to a higher sub level will take it out of the logs. Another
+option is to log only the messages of a certain value, or to regex on
+the message - i.e. you get
+othogonal differentiation of values and types (see the filter example
+below). This can
 also make sense when deploying applications under different scenarios.
 
 Log4r is useful, compared to the standard Ruby logger,
@@ -51,6 +55,7 @@ specify global log level:
   --trace  debug               Show all messages 
   --trace  warn                Show messages more serious than 'warn'
   --trace  warn:3              Show messaged more serious that 'warn' level 3
+  --trace  3                   Show all messages with sub-level 3
 
 overrides:
 
@@ -103,13 +108,21 @@ streams. It is also possible to change behaviours by module.
   log.fatal "This is a message with level FATAL"
   log.warn3 "This is a message with level WARN:3"
 
-  # Restrict output to WARN:3
+  # Restrict output to messages <=WARN:3
   log.level = WARN
   log.sub_level = 3
   log.info("This is a message with level INFO")      # not logged
   log.warn8("This is a message with level WARN:8")   # not logged
   log.warn1("This is a message with level WARN:1")   # logged
   log.warn("This is a message with level WARN")      # logged
+
+  # Restrict output for DEBUG, INFO, WARN to sub_level 3
+  log.filter { | level, sub_level, msg | sub_level == 3 or level <= ERROR }
+  log.warn8("This is a message with level WARN:8")   # not logged
+  log.warn3("This is a message with level WARN:3")   # logged
+  log.warn1("This is a message with level WARN:1")   # not logged
+  log.info3("This is a message with level INFO:3")   # logged
+  log.error("This is a message with level ERROR")    # logged
 
   # Fetch the BLAST logger (assuming it exists)
   blastlog = LoggerPlus['blast']
