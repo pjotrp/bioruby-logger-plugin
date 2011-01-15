@@ -1,5 +1,6 @@
 
 require 'bio/log/loggersublevels'
+require 'bio/log/loggerfilter'
 require 'bio/log/loggerusers'
 require 'bio/log/loggercli'
 
@@ -12,6 +13,13 @@ module Bio
     # Derived from the Log4r Logger class
     class LoggerPlus < Logger
       include LoggerSubLevels
+      include LoggerFilter
+
+      def default_level
+        INFO
+      end
+      def default_sub_level
+      end
 
       def debug_ msg, options = {}
         if options[:act]
@@ -51,6 +59,10 @@ module Bio
         else
           fatal msg
         end
+      end
+
+      def [] name
+        super
       end
 
     end
