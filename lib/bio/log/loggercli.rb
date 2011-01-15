@@ -24,27 +24,50 @@ module Bio
 
       # Parse and store trace options
       def CLI::trace s
+        level = nil
         sub_level = nil
+        filter = nil
 
         opts = {}
+        # ---- split fields
         a = s.split(':')
-        if a.last =~ /^\d+$/
+        if a.last =~ /^=(\d+)$/
+          # ---- set exact filter
+          filter = "sub_level==#{$1}"
+          a.pop
+        elsif a.last =~ /^=/
+          # ---- set filter
+          filter = $'
+          a.pop
+        elsif a.last =~ /^\d+$/
+          # ---- the last field is the sub level
           sub_level = a.pop.to_i
+          # ---- The fore-last field is the level
+          level = a.pop.downcase
+        else
+          level = a.pop.downcase
         end
-        level = a.pop.downcase
+        # ---- If there is another field it contains logger name(s)
+        #      otherwise it is a global
         outputter = 
           if a.size == 2 
             a.shift
           end
         if a.size == 0
-          a = [:default] 
+          a = [:default]  # global
         else
-          a = a[0].split(',')
+          a = a[0].split(',') # one or more logger name(s)
         end
+        # ---- update every logger
         a.each do | type |
-          opts[type] = { :level => level, :sub_level => sub_level }
+          opts[type] = {}
+          opts[type][:level] = level if level
+          opts[type][:sub_level] = sub_level if sub_level
+          opts[type][:filter] = filter if filter
           opts[type][:outputter_name] = outputter if outputter
+          # p [type,opts[type]]
         end
+        # ---- Set the globals
         LoggerPlusGlobal.instance.trace ||= {}
         LoggerPlusGlobal.instance.trace = LoggerPlusGlobal.instance.trace.merge(opts)
       end

@@ -33,19 +33,27 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
   end
   it "should parse --trace  debug to show all messages" do
     CLI.trace("debug")
-    @global.trace[:default].should == { :level => 'debug', :sub_level => nil } 
+    @global.trace[:default].should == { :level => 'debug' } 
   end
   it "should parse --trace  warn to show how messages more serious than 'warn'" do
     CLI.trace("warn")
-    @global.trace[:default].should == { :level => 'warn', :sub_level => nil } 
+    @global.trace[:default].should == { :level => 'warn' } 
   end
   it "should parse --trace  warn:3 to show messaged more serious that 'warn' level 3" do
     CLI.trace("warn:3")
     @global.trace[:default].should == { :level => 'warn', :sub_level => 3 } 
   end
+  it "should parse --trace =3 to show level 3 only" do
+    CLI.trace("=3")
+    @global.trace[:default].should == { :filter => "sub_level==3" } 
+  end
+  it "should parse --trace \"=sub_level == 3 or level <= ERROR\"" do
+    CLI.trace("=sub_level == 3 or level <= ERROR")
+    @global.trace[:default].should == { :filter => "sub_level == 3 or level <= ERROR" } 
+  end
   it "should parse --trace  blast:debug to override level for 'blast'" do
     CLI.trace("blast:debug")
-    @global.trace.should == {"blast"=>{:level=>"debug", :sub_level=>nil}}
+    @global.trace.should == {"blast"=>{:level=>"debug"}}
   end
   it "should parse --trace  gff3:info:5 to override level for 'gff3' to info level 5" do
     CLI.trace("gff3:info:5")
@@ -58,7 +66,7 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
   it "should parse --trace  stderr:blast:debug to override level for 'blast' on stderr" do
     CLI.trace("stderr:blast:debug")
     @global.trace.should ==
-      {"blast"=>{:level=>"debug", :sub_level=>nil, :outputter_name=>"stderr"}}
+      {"blast"=>{:level=>"debug", :outputter_name=>"stderr"}}
   end
   it "should parse --trace  stderr:blast,gff3:debug:1 to override level for 'blast' on stderr" do
     CLI.trace("stderr:blast,gff3:debug:1")

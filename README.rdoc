@@ -1,22 +1,29 @@
 = bio-logger
 
 This is a plugin for nailing down problems with big data parsers,
-common in bioinformatics, and sane handling of errors and exceptions in different
-situations (log-act). A logger can be made to behave differently as
+nowadays so common in bioinformatics, and sane handling of errors and
+exceptions in different situations (log-act). Log messages can be
+filtered from the program
+
+  log.filter { | level, sub_level, msg | sub_level == 3 or level <= ERROR }
+
+and can be made to behave differently based on roles of the caller,
+e.g.
 
 * NormalUser
 * Developer (or FailOnError)
 * WebServer
 * FaultTolerant systems
 
-One example of the use of having different behaviours, is when a program logs a
-warning to stdout as a user, but raises an exception as a developer.
-In Bioinformatics this is a common scenario when dealing with parsers.
-Large data files sometimes contain errors. As a user you want to
-continue and hope for the best (logging the error). As a developer you
-want to see how you can fix the problem. Waiting for a full run and
-checking the logs is tedious. The logger can be helpful here, and
-avoids sticking 'temporary' solutions in code.
+One example of the use of having different behaviours, is when a
+program logs a warning to stdout when called as a user, but raises an
+exception when called as a developer.  In Bioinformatics this is a
+common scenario when dealing with parsers.  Large data files sometimes
+contain errors. As a user you want to continue and hope for the best
+(logging the error). As a developer you want to see how you can fix
+the problem. Waiting for a full run and checking the logs is tedious.
+The logger can be helpful here, and avoids sticking 'temporary'
+solutions in code.
 
 bio-logger builds up on log4r functionality, which comes with multiple
 handlers, such as a rotating and remote logging, and is thread-safe.
@@ -24,18 +31,16 @@ Next to adding behaviours, bio-logger introduces a more fine-grained
 approach for logging errors. I.e. within 'debug', 'info', 'warn',
 'error' and 'fatal', an additional value 1..9 can be set to limit
 output and logging. This, again, can be helpful when dealing with huge
-log files. One way is to switch a not so important and validated DEBUG, INFO or
-WARN, to a higher sub level will take it out of the logs. Another
-option is to log only the messages of a certain value, or to regex on
-the message - i.e. you get
-othogonal differentiation of values and types (see the filter example
-below). This can
-also make sense when deploying applications under different scenarios.
+log files. One way is to switch a not so important and validated
+DEBUG, INFO or WARN, to a higher sub level will take it out of the
+logs. Another option is to log only the messages of a certain value,
+or to regex on the message - i.e. you get othogonal differentiation of
+values and types (see the filter example below). This can also make
+sense when deploying applications under different scenarios.
 
-Log4r is useful, compared to the standard Ruby logger,
-because it allows you to set reporting leaves by log type. I.e. if
-everything in BioRuby works, except for the BLAST parser, or some
-plugin, the logger
+Log4r is useful, compared to the standard Ruby logger, because it
+allows you to set reporting leaves by log type. I.e. if everything in
+BioRuby works, except for the BLAST parser, or some plugin, the logger
 can be tuned only to log BLAST debug level, and everything else at
 normal level.
 
@@ -43,7 +48,8 @@ In other words, bio-logger helps in tracking down problems and
 provide a way of avoiding sprinkling $stderr.print statements through
 the code base.
 
-To support applications, bio-logger can also parse command line switches:
+To support applications, bio-logger can also help parse command line
+switches:
 
 add (multiple) loggers:
 
@@ -55,7 +61,8 @@ specify global log level:
   --trace  debug               Show all messages 
   --trace  warn                Show messages more serious than 'warn'
   --trace  warn:3              Show messaged more serious that 'warn' level 3
-  --trace  3                   Show all messages with sub-level 3
+  --trace  "=3"                Show all messages with sub-level==3
+  --trace  "=sub_level == 3 or level <= ERROR" Set filter
 
 overrides:
 
