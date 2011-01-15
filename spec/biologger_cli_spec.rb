@@ -63,6 +63,10 @@ describe Bio::Log::CLI, "bio-logger command line parsing" do
     CLI.trace("blast,gff3:debug:5")
     @global.trace.should == {"blast"=>{:level=>"debug", :sub_level=>5}, "gff3"=>{:level=>"debug", :sub_level=>5}} 
   end
+  it "should parse --trace \"blast:=sub_level == 3 or level <= ERROR\"" do
+    CLI.trace("blast:=sub_level == 3 or level <= ERROR")
+    @global.trace['blast'].should == { :filter => "sub_level == 3 or level <= ERROR" } 
+  end
   it "should parse --trace  stderr:blast:debug to override level for 'blast' on stderr" do
     CLI.trace("stderr:blast:debug")
     @global.trace.should ==
