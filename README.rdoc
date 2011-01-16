@@ -130,6 +130,7 @@ streams. It is also possible to change behaviours by module.
   log.warn1("This is a message with level WARN:1")   # not logged
   log.info3("This is a message with level INFO:3")   # logged
   log.error("This is a message with level ERROR")    # logged
+  log.reset_filter
 
   # Fetch the BLAST logger (assuming it exists)
   blastlog = LoggerPlus['blast']

@@ -16,7 +16,7 @@ module Bio
       include LoggerFilter
 
       def default_level
-        INFO
+        DEBUG
       end
       def default_sub_level
       end

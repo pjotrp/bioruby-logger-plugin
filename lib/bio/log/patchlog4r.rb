@@ -1,5 +1,3 @@
-
-
 module Log4r
   class Outputter < Monitor
 
@@ -23,7 +21,13 @@ module Log4r
         mstr = 
             %-
             def out.#{mname}(logevent)
-              return nil if self.class.method_defined?(:filtered?) and filtered?(1,2,3)
+              if self.class.method_defined?(:filtered?) 
+                # p logevent
+                if !filtered?(logevent.level,nil,logevent.data)
+                  # p "**** returning nil for "+logevent.data
+                  return nil
+                end
+              end
               canonical_log(logevent)
             end
             -

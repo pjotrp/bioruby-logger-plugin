@@ -33,6 +33,7 @@ describe Bio::Log, "logs" do
   after(:all) do
     File.unlink("file.log")
     File.unlink("TestSize000001.log")
+    @mylog.reset_filter
   end
 
   it "should have a stderr logger" do
@@ -78,18 +79,25 @@ describe Bio::Log, "logs" do
     @mylog.warn8("This is a message with level WARN:8").should_not == nil
   end
   it "should allow for a filter" do
+    @mylog.filter { |l,s,m| l==INFO }
+    @mylog.info("This is a level filtered message with level INFO")
+    @mylog.warn("NO DISPLAY: This is a level filtered message with level WARN")
+    @mylog.error("NO DISPLAY: This is a level filtered message with level ERROR")
+
+    @mylog.filter { |l,s,m| m =~ /filtered/ }
+    @mylog.info("NO DISPLAY: This is a Filtered message with level XXX")
+    @mylog.info3("DISPLAY This is a filtered message with level XXX")
     @mylog.filter { |l,s,m| s==3 }
-    @mylog.info("This is a filtered message with level INFO").should == nil
-    @mylog.info3("This is a message with level INFO").should_not == nil
-    @mylog.warn8("This is a message with level WARN:8").should == nil
-    @mylog.warn3("This is a message with level WARN:3").should_not == nil
-    @mylog.warn1("This is a message with level WARN:1").should == nil
-    @mylog.warn("This is a message with level WARN").should == nil
-    @mylog.error("This is a message with level ERROR").should == nil
-    @mylog.level = DEBUG
-    @mylog.sub_level = nil
-    @mylog.info("This is a message with level INFO").should_not == nil
-    @mylog.warn8("This is a message with level WARN:8").should_not == nil
+    @mylog.info("NO DISPLAY: This is a filtered message with level INFO")
+    @mylog.info3("DISPLAY This is a filtered message with level INFO:3")
+    @mylog.warn8("NO DISPLAY: This is a filtered message with level WARN:8")
+    @mylog.warn3("DISPLAY This is a filtered message with level WARN:3")
+    @mylog.warn1("NO DISPLAY: This is a filtered message with level WARN:1")
+    @mylog.warn("NO DISPLAY: This is a filtered message with level WARN")
+    @mylog.error("NO DISPLAY: This is a filtered message with level ERROR")
+    @mylog.reset_filter
+    @mylog.info("DISPLAY: This is an unfiltered message with level INFO").should_not == nil
+    @mylog.warn8("DISPLAY: This is an unfiltered message with level WARN:8").should_not == nil
   end
   it "should override level for 'blast' to info level 5" do
     log = LoggerPlus['blast']
