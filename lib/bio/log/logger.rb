@@ -16,7 +16,8 @@ module Bio
       include LoggerFilter
 
       def default_level
-        DEBUG
+        # Log4r::Logger::DEBUG
+        6
       end
       def default_sub_level
       end

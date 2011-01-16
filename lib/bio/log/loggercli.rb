@@ -102,9 +102,10 @@ module Bio
           filter = default[:filter]
           filter = opts[:filter] if opts[:filter]
           if filter
-            filter = "logger.filter { |level,sub_level,msg| #{filter} }" 
-            p filter
-            eval(filter)
+            # p filter
+            filter2 = "logger.filter { |level,sub_level,msg| #{filter} }" 
+            # p filter2
+            eval(filter2)
           end
         end
       end
