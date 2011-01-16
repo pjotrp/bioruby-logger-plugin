@@ -6,6 +6,7 @@ module Bio
     module LoggerFilter
 
       def filter &filter_func
+        @use_filter = filter_func
         @outputters.each do | out | 
           # p [:adding_filter_to,out]
           out.class.send(:define_method, :filtered?) do |l,s,m|
@@ -19,6 +20,7 @@ module Bio
       end
 
       def reset_filter
+        @use_filter = nil
         @outputters.each do | out | 
           if out.class.method_defined?(:filtered?)
             out.class.send(:remove_method, :filtered?)
