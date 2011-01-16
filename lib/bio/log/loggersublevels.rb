@@ -8,27 +8,6 @@ module Bio
     module LoggerSubLevels
       attr_accessor :sub_level
 
-      def debug msg
-        Logger::debug('HA***'+msg)
-      end
-
-      def info msg
-        Logger::info('HA***'+msg)
-      end
-
-      def warn msg
-        Logger::warn('HA***'+msg)
-      end
-
-      def error msg
-        Logger::error('HA***'+msg)
-      end
-
-      def fatal msg
-        Logger::fatal('HA***'+msg)
-      end
-
-
       def debug1(s)
         debug(s) if !sub_level or sub_level >= 1
       end
@@ -64,6 +43,12 @@ module Bio
         info(s) if !sub_level or sub_level >= 2
       end
       def info3(s)
+        p self
+        if self.class.method_defined?(:filtered?) 
+          if !filtered?(logevent.level,nil,logevent.data)
+            return nil
+          end
+        end
         info(s) if !sub_level or sub_level >= 3
       end
       def info4(s)

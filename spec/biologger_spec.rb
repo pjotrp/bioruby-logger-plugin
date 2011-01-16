@@ -87,6 +87,7 @@ describe Bio::Log, "logs" do
     @mylog.filter { |l,s,m| m =~ /filtered/ }
     @mylog.info("NO DISPLAY: This is a Filtered message with level XXX")
     @mylog.info3("DISPLAY This is a filtered message with level XXX")
+
     @mylog.filter { |l,s,m| s==3 }
     @mylog.info("NO DISPLAY: This is a filtered message with level INFO")
     @mylog.info3("DISPLAY This is a filtered message with level INFO:3")
