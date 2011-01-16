@@ -98,6 +98,7 @@ module Bio
             end
           set_levels(logger, default) if default
           set_levels(logger, opts)
+          eval "logger.filter { | level,sub_level,msg | #{opts[:filter]} ) }"
         end
       end
 
