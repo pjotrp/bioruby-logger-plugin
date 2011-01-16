@@ -7,5 +7,6 @@ rescue
 end
 
 require 'log4r'
+require 'bio/log/patchlog4r'
 require 'bio/log/logger'
 require 'bio/log/loggercli'

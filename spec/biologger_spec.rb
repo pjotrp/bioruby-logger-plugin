@@ -79,7 +79,7 @@ describe Bio::Log, "logs" do
   end
   it "should allow for a filter" do
     @mylog.filter { |l,s,m| s==3 }
-    @mylog.info("This is a message with level INFO").should == nil
+    @mylog.info("This is a filtered message with level INFO").should == nil
     @mylog.info3("This is a message with level INFO").should_not == nil
     @mylog.warn8("This is a message with level WARN:8").should == nil
     @mylog.warn3("This is a message with level WARN:3").should_not == nil

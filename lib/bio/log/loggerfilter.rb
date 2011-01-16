@@ -4,17 +4,17 @@ module Bio
 
     # The filter logger changes behaviour
     module LoggerFilter
-      def filter &proc
-        @level = default_level
+      def filter &filter_func
+        @outputters.each do | out | 
+          p [:adding_filter_to,out]
+          out.class.send(:define_method, :filtered?) do |l,s,m|
+            p [:called,l,s,m]
+            filter_func.call(l,s,m)
+          end
+          raise 'hell' if !out.class.method_defined?(:filtered?)
+        end
+        @level = default_level  # will recreate logger methods
         @sub_level = default_sub_level
-        Logger.root
-        define_log('info')
-      end
-
-      def define_log(mname)
-        self.class.send(:define_method, mname) { |*args|
-          p [:hello,"****",@args]
-        }
       end
     end
 
