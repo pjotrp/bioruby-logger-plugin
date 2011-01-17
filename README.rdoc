@@ -2,13 +2,14 @@
 
 This is a plugin for nailing down problems with big data parsers,
 nowadays so common in bioinformatics, and sane handling of errors and
-exceptions in different situations (log-act). Log messages can be
+exceptions in different situations (log-act). 
+
+For example, using bio-logger, messages can be
 filtered from the program
 
   log.filter { | level, sub_level, msg | sub_level == 3 or level <= ERROR }
 
-and can be made to behave differently based on roles of the caller,
-e.g.
+or can be made to behave differently based on roles of the caller as
 
 * NormalUser
 * Developer (or FailOnError)
@@ -27,9 +28,9 @@ solutions in code.
 
 bio-logger builds up on log4r functionality, which comes with multiple
 handlers, such as a rotating and remote logging, and is thread-safe.
-Next to adding behaviours, bio-logger introduces a more fine-grained
+Next to adding filtering and behaviours, bio-logger introduces a more fine-grained
 approach for logging errors. I.e. within 'debug', 'info', 'warn',
-'error' and 'fatal', an additional value 1..9 can be set to limit
+'error' and 'fatal', an additional value (the sub_level) can be set to limit
 output and logging. This, again, can be helpful when dealing with huge
 log files. One way is to switch a not so important and validated
 DEBUG, INFO or WARN, to a higher sub level will take it out of the
