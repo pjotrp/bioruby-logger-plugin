@@ -31,6 +31,7 @@ Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
+  Kernel.system('rspec spec/*.rb')
 end
 
 require 'rcov/rcovtask'
