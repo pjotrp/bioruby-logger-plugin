@@ -82,7 +82,7 @@ module Bio
         default = trace[:default] if trace[:default]
         trace[logname] ||= {} if logname
         trace.each do | name, opts |
-          p [name, opts]
+          # p [name, opts]
           next if name == :default
           logger_type = type
           logger_type = default[:outputter_name] if default[:outputter_name]
