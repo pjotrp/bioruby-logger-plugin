@@ -13,9 +13,9 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "bio-logger"
-  gem.homepage = "http://github.com/pjotrp/bioruby-logger"
+  gem.homepage = "https://github.com/pjotrp/bioruby-logger-plugin"
   gem.license = "MIT"
-  gem.summary = %Q{Log4r wrapper with extra features}
+  gem.summary = %Q{Log4r wrapper with extra features for roles and sane error handling}
   gem.description = %Q{Log4r wrapper for BioRuby}
   gem.email = "pjotr.public01@thebird.nl"
   gem.authors = ["Pjotr Prins"]
