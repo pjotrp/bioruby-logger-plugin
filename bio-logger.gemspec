@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bio-logger}
-  s.version = "0.9.0"
+  s.version = "0.9.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Pjotr Prins"]
-  s.date = %q{2011-01-17}
+  s.authors = [%q{Pjotr Prins}]
+  s.date = %q{2011-07-31}
   s.description = %q{Log4r wrapper for BioRuby}
   s.email = %q{pjotr.public01@thebird.nl}
   s.extra_rdoc_files = [
@@ -37,11 +37,11 @@ Gem::Specification.new do |s|
     "test/helper.rb",
     "test/test_bio-logger.rb"
   ]
-  s.homepage = %q{http://github.com/pjotrp/bioruby-logger}
-  s.licenses = ["MIT"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Log4r wrapper with extra features}
+  s.homepage = %q{https://github.com/pjotrp/bioruby-logger-plugin}
+  s.licenses = [%q{MIT}]
+  s.require_paths = [%q{lib}]
+  s.rubygems_version = %q{1.8.6}
+  s.summary = %q{Log4r wrapper with extra features for roles and sane error handling}
   s.test_files = [
     "spec/biologger_cli_spec.rb",
     "spec/biologger_spec.rb",
@@ -50,7 +50,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
