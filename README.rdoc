@@ -1,7 +1,9 @@
+bio-logger is listed at http://biogems.info
+
 = bio-logger
 
 This is a plugin for nailing down problems with big data parsers,
-nowadays so common in bioinformatics, and sane handling of errors and
+so common in bioinformatics, and sane handling of errors and
 exceptions in different situations (log-act). 
 
 For example, using bio-logger, messages can be
