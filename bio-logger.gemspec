@@ -4,20 +4,21 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{bio-logger}
+  s.name = "bio-logger"
   s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{Pjotr Prins}]
-  s.date = %q{2011-07-31}
-  s.description = %q{Log4r wrapper for BioRuby}
-  s.email = %q{pjotr.public01@thebird.nl}
+  s.authors = ["Pjotr Prins"]
+  s.date = "2012-02-27"
+  s.description = "Log4r wrapper for BioRuby"
+  s.email = "pjotr.public01@thebird.nl"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
   ]
   s.files = [
     ".document",
+    ".travis.yml",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
@@ -37,11 +38,11 @@ Gem::Specification.new do |s|
     "test/helper.rb",
     "test/test_bio-logger.rb"
   ]
-  s.homepage = %q{https://github.com/pjotrp/bioruby-logger-plugin}
-  s.licenses = [%q{MIT}]
-  s.require_paths = [%q{lib}]
-  s.rubygems_version = %q{1.8.6}
-  s.summary = %q{Log4r wrapper with extra features for roles and sane error handling}
+  s.homepage = "https://github.com/pjotrp/bioruby-logger-plugin"
+  s.licenses = ["MIT"]
+  s.require_paths = ["lib"]
+  s.rubygems_version = "1.8.10"
+  s.summary = "Log4r wrapper with extra features for roles and sane error handling"
   s.test_files = [
     "spec/biologger_cli_spec.rb",
     "spec/biologger_spec.rb",
@@ -57,14 +58,12 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 2.3.0"])
     else
       s.add_dependency(%q<log4r>, [">= 1.1.9"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
-      s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 2.3.0"])
     end
   else
@@ -72,7 +71,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
-    s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 2.3.0"])
   end
 end
