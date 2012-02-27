@@ -13,4 +13,5 @@ group :development do
   # gem "rcov", ">= 0"
   # gem "bio", ">= 1.4.1"
   gem "rspec", ">= 2.3.0"
+  gem "rdoc", ">= 3.12"
 end
