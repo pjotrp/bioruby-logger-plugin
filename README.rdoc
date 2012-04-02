@@ -166,6 +166,20 @@ For parsing command line options with the OptionParser:
   # Realize settings
   Bio::Log::CLI.configure('mylog')
 
+== Biogems
+
+The recommended way to use bio-logger from within a biogem is to setup a
+logger in lib/bio-gemname.rb (where you replace gemname with the name of your
+gem, of course) like so:
+
+  # bioruby-gemname/lib/bio-gemname.rb
+  require 'bio-logger'
+  Bio::Log::LoggerPlus.new('bio-gemname')
+
+Then the log can be written to anywhere within the biogem's code e.g.
+
+  LoggerPlus['bio-gemname'].debug "a debug message"
+
 == Documentation
 
 The log4r documentation and source code can be used, as this Logger 
