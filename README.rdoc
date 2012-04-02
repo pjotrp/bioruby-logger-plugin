@@ -178,7 +178,8 @@ gem, of course) like so:
 
 Then the log can be written to anywhere within the biogem's code e.g.
 
-  LoggerPlus['bio-gemname'].debug "a debug message"
+  log = Bio::Log::LoggerPlus['bio-gemname']
+  log.debug "a debug message"
 
 == Documentation
 
